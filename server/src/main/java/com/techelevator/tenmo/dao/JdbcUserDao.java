@@ -4,6 +4,7 @@ import com.techelevator.tenmo.model.User;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -13,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
+@PreAuthorize("isAuthenticated()")
 public class JdbcUserDao implements UserDao {
 
     private JdbcTemplate jdbcTemplate;
@@ -54,6 +56,7 @@ public class JdbcUserDao implements UserDao {
         throw new UsernameNotFoundException("User " + username + " was not found.");
     }
 
+    @PreAuthorize("permitAll()")
     @Override
     public boolean create(String username, String password) {
 
@@ -67,14 +70,17 @@ public class JdbcUserDao implements UserDao {
             return false;
         }
 
-        // TODO: Create the account record with initial balance
-        String sqlCount = "INSERT INTO account (user_id, balance) " +
-                "VALUES (?, 1000) RETURNING account_id";
-        jdbcTemplate.queryForObject(sqlCount, Integer.class, newUserId);
+        int userId = newUserId;
 
+        String sqlAccount = "INSERT INTO account (user_id, balance) " +
+                "VALUES (?, 1000.00) RETURNING account_id";
+        Integer newAccountId;
+
+        jdbcTemplate.queryForObject(sqlAccount, Integer.class, userId);
 
         return true;
     }
+
 
     private User mapRowToUser(SqlRowSet rs) {
         User user = new User();

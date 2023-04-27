@@ -4,9 +4,11 @@ import com.techelevator.tenmo.model.Account;
 import com.techelevator.tenmo.model.User;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+@Component
 public class JdbcAccountDao implements AccountDao{
 
     private JdbcTemplate jdbcTemplate;
@@ -17,8 +19,15 @@ public class JdbcAccountDao implements AccountDao{
 
 
     @Override
-    public boolean create(int userId) {
-        return false;
+    public boolean createAccount(int userId) {
+
+        String sql = "INSERT INTO account (user_id, balance) " +
+                "VALUES (?, 1000.00) RETURNING account_id";
+        Integer newAccountId;
+
+            jdbcTemplate.queryForObject(sql, Integer.class, userId);
+
+        return true;
     }
 
     @Override

@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface AccountDao {
 
-    boolean create(int userId);
+    boolean createAccount(int userId);
 
     List<Account> listAccounts(int userId);
 
