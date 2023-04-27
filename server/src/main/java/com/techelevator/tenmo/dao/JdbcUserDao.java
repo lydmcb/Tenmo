@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-@PreAuthorize("isAuthenticated()")
+//@PreAuthorize("isAuthenticated()")
 public class JdbcUserDao implements UserDao {
 
     private JdbcTemplate jdbcTemplate;
@@ -81,6 +81,18 @@ public class JdbcUserDao implements UserDao {
         return true;
     }
 
+    @Override
+    public List<String> payableUser() {
+        List<String> listOfUserNames = new ArrayList<>();
+        String sql = "SELECT * FROM tenmo_user";
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
+        while(results.next()) {
+            listOfUserNames.add(mapRowToUser(results).getUsername());
+            /*User user = mapRowToUser(results);
+            listOfUserNames.add(user);*/
+        }
+        return listOfUserNames;
+    }
 
     private User mapRowToUser(SqlRowSet rs) {
         User user = new User();

@@ -10,6 +10,6 @@ public interface AccountDao {
 
     List<Account> listAccounts(int userId);
 
-    double getBalance(int accountId);
+    double getBalance();
 
 }

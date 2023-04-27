@@ -6,6 +6,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -36,9 +37,13 @@ public class JdbcAccountDao implements AccountDao{
     }
 
     @Override
-    public double getBalance(int accountId) {
-        return 0;
+    public double getBalance() {
+        String sql = "SELECT balance FROM account";
+        return jdbcTemplate.queryForObject(sql, Double.class);
+
     }
+
+
 
 
     private Account mapRowToAccount(SqlRowSet rs) {
