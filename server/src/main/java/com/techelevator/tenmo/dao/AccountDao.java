@@ -12,4 +12,8 @@ public interface AccountDao {
 
     double getBalance();
 
+    double updateSenderBalance(double amountTransferred);
+
+    double updateReceiverBalance(double amountTransferred, String username);
+
 }

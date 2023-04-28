@@ -43,7 +43,24 @@ public class JdbcAccountDao implements AccountDao{
 
     }
 
+    public double updateSenderBalance(double amountTransferred){
+      double senderBalance = getBalance();
 
+      senderBalance -= amountTransferred;
+
+      return senderBalance;
+    }
+
+    public double updateReceiverBalance(double amountTransferred, String username){
+
+        String sql = "SELECT balance FROM account a JOIN tenmo_user t" +
+                "ON a.user_id = t.user_id  WHERE username = ?";
+       Double receiverBalance = jdbcTemplate.queryForObject(sql, Double.class, username);
+
+       receiverBalance += amountTransferred;
+
+      return receiverBalance;
+    }
 
 
     private Account mapRowToAccount(SqlRowSet rs) {

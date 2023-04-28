@@ -19,10 +19,10 @@ public class UserController {
         this.userDao = userDao;
     }
 
-    @RequestMapping(value = "/payable-user", method = RequestMethod.GET)
-    public List<String> payableUsers(){
-        return userDao.payableUser();
-    }
+  //  @RequestMapping(value = "/payable-user", method = RequestMethod.GET)
+    //public List<String> payableUsers(){
+       // return userDao.payableUser();
+   // }
 
 
 
