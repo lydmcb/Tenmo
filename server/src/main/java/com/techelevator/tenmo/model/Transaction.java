@@ -3,15 +3,15 @@ package com.techelevator.tenmo.model;
 public class Transaction {
 
     private int transactionId;
-    private String sender;
-    private String receiver;
+    private int senderId;
+    private int receiverId;
     private double amountTransferred;
     private String status;
 
-    public Transaction(int transactionId, String sender, String receiver, double amountTransferred, String status) {
+    public Transaction(int transactionId, int senderId, int receiverId, double amountTransferred, String status) {
         this.transactionId = transactionId;
-        this.sender = sender;
-        this.receiver = receiver;
+        this.senderId= senderId;
+        this.receiverId = receiverId;
         this.amountTransferred = amountTransferred;
         this.status = status;
     }
@@ -24,19 +24,19 @@ public class Transaction {
         this.transactionId = transactionId;
     }
 
-    public String getSender() {
-        return sender;
+    public int getSenderId() {
+        return senderId;
     }
 
-    public void setSender(String sender) {
-        this.sender = sender;}
+    public void setSender(int senderId) {
+        this.senderId = senderId;}
 
-    public String getReceiverId() {
-        return receiver;
+    public int getReceiverId() {
+        return receiverId;
     }
 
-    public void setReceiverId(String receiver) {
-        this.receiver = receiver;
+    public void setReceiverId(int receiver) {
+        this.receiverId = receiver;
     }
 
     public double getAmountTransferred() {

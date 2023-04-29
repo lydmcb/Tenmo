@@ -2,11 +2,12 @@ package com.techelevator.tenmo.dao;
 
 import com.techelevator.tenmo.model.Transaction;
 
+import java.security.Principal;
 import java.util.List;
 
 public interface TransactionDao {
 
-    void transfer (double senderBalance, double receiverBalance, double amountTransferred, String senderUserName, String receiverUsername);
+    void transfer (double amountTransferred, int senderId, int receiverId);
 
     List<Transaction> transactionList();
 
