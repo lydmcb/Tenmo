@@ -32,7 +32,7 @@ public class TransactionController {
         }
 
     @RequestMapping(value ="/transaction/balance", method = RequestMethod.GET)
-    public double updateSenderBalance(double amountTransferred){
+    double updateSenderBalance(double amountTransferred){
          double senderBalance = accountDao.updateSenderBalance(amountTransferred);
          return  senderBalance;
         } // put into variable then post
