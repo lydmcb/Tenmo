@@ -6,6 +6,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,23 +44,37 @@ public class JdbcAccountDao implements AccountDao{
 
     }
 
-    public double updateSenderBalance(double amountTransferred){
-      double senderBalance = getBalance();
+    @Override
+    public void subtractBalance(int accountId, double amountTransferred){
+      String sql = "UPDATE account SET balance = (balance - ?) WHERE account_id = ?";
+      jdbcTemplate.update(sql, amountTransferred, accountId);
 
-      senderBalance -= amountTransferred;
-
-      return senderBalance;
     }
 
-    public double updateReceiverBalance(double amountTransferred, String username){
+    @Override
+    public void addBalance(int accountId, double amountTransferred){
+        String sql = "UPDATE account SET balance = (balance + ?) WHERE account_id = ?";
+       jdbcTemplate.update(sql, amountTransferred, accountId);
 
-        String sql = "SELECT balance FROM account a JOIN tenmo_user t" +
-                "ON a.user_id = t.user_id  WHERE username = ?";
-       Double receiverBalance = jdbcTemplate.queryForObject(sql, Double.class, username);
+    }
 
-       receiverBalance += amountTransferred;
+    @Override
+    public int getAccountIdByUserId(int userId){
+        int accountId;
+        String sql = "SELECT account_id FROM account WHERE user_id = ?";
+        accountId = jdbcTemplate.queryForObject(sql, Integer.class, userId);
+        return accountId;
+    }
 
-      return receiverBalance;
+    @Override
+    public String getUsernameByAccountId(int accountId){
+        String sql = "SELECT username FROM tenmo_user t " +
+                "JOIN account a ON a.user_id = t.user_id " +
+                "WHERE account_id = ?";
+
+      String username = jdbcTemplate.queryForObject(sql, String.class, accountId);
+
+      return username;
     }
 
 
