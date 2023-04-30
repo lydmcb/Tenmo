@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.validation.Valid;
+import java.security.Principal;
 import java.util.List;
 
 @PreAuthorize("isAuthenticated()")
@@ -26,10 +28,10 @@ public class AccountController {
         this.accountDao = accountDao;
     }
 
-    @RequestMapping(value = "/balance", method = RequestMethod.GET)
-    public double getBalance() {
-        double accountDaoBalance = accountDao.getBalance();
-        return accountDao.getBalance();
+    @RequestMapping(value= "/balance", method = RequestMethod.GET)
+    public double getBalance(String username, Principal principal) {
+        double accountDaoBalance = accountDao.getBalance(principal.getName());
+        return accountDaoBalance;
     }
 
 

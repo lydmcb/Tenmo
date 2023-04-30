@@ -9,8 +9,8 @@ public interface TransactionDao {
 
     void transfer (double amountTransferred, int senderId, int receiverId);
 
-    List<Transaction> transactionList();
+    List<Transaction> transactionList(String username);
 
-    Transaction findTransactionById(int transactionId);
+    Transaction findTransactionById(Integer transaction_id);
 
 }

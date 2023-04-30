@@ -1,10 +1,16 @@
 package com.techelevator.tenmo.model;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.PositiveOrZero;
+
 public class Transaction {
 
     private int transactionId;
     private int senderId;
     private int receiverId;
+    @Positive
     private double amountTransferred;
     private String status;
 
@@ -15,6 +21,11 @@ public class Transaction {
         this.amountTransferred = amountTransferred;
         this.status = status;
     }
+
+    public Transaction() {
+
+    }
+
 
     public int getTransactionId() {
         return transactionId;
@@ -28,7 +39,7 @@ public class Transaction {
         return senderId;
     }
 
-    public void setSender(int senderId) {
+    public void setSenderId(int senderId) {
         this.senderId = senderId;}
 
     public int getReceiverId() {

@@ -1,5 +1,6 @@
 package com.techelevator.tenmo.dao;
 
+import com.techelevator.tenmo.exceptions.InsufficientFundsException;
 import com.techelevator.tenmo.model.Account;
 
 import java.util.List;
@@ -10,11 +11,11 @@ public interface AccountDao {
 
     List<Account> listAccounts(int userId);
 
-    double getBalance();
+    double getBalance(String username);
 
     void addBalance(int accountId, double amountTransferred);
 
-    void subtractBalance(int accountId, double amountTransferred);
+    void subtractBalance(int accountId, double amountTransferred) throws InsufficientFundsException;
 
     int getAccountIdByUserId(int userId);
 

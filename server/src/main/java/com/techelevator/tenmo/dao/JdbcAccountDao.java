@@ -1,5 +1,6 @@
 package com.techelevator.tenmo.dao;
 
+import com.techelevator.tenmo.exceptions.InsufficientFundsException;
 import com.techelevator.tenmo.model.Account;
 import com.techelevator.tenmo.model.User;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -38,14 +39,21 @@ public class JdbcAccountDao implements AccountDao{
     }
 
     @Override
-    public double getBalance() {
-        String sql = "SELECT balance FROM account";
-        return jdbcTemplate.queryForObject(sql, Double.class);
+    public double getBalance(String username) {
+        String sql = "SELECT balance FROM account a JOIN tenmo_user t ON a.user_id = t.user_id WHERE username = ?;";
+        return jdbcTemplate.queryForObject(sql,Double.class, username);
 
     }
 
     @Override
-    public void subtractBalance(int accountId, double amountTransferred){
+    public void subtractBalance(int accountId, double amountTransferred) throws InsufficientFundsException {
+
+            if (amountTransferred > getBalance(getUsernameByAccountId(accountId))) {
+                amountTransferred = 0;
+                throw new InsufficientFundsException();
+
+            }
+
       String sql = "UPDATE account SET balance = (balance - ?) WHERE account_id = ?";
       jdbcTemplate.update(sql, amountTransferred, accountId);
 
@@ -53,6 +61,9 @@ public class JdbcAccountDao implements AccountDao{
 
     @Override
     public void addBalance(int accountId, double amountTransferred){
+
+        //if(accountId ==  )
+
         String sql = "UPDATE account SET balance = (balance + ?) WHERE account_id = ?";
        jdbcTemplate.update(sql, amountTransferred, accountId);
 
